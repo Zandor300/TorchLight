@@ -2,3 +2,4 @@ name: TorchLight
 main: com.zandor300.torchlight.TorchLight
 version: 1.0.0
 author: Zandor300
+depend: [ZSUtilities]
