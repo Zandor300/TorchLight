@@ -23,8 +23,10 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Zandor Smith
@@ -36,6 +38,7 @@ public class TorchLight extends JavaPlugin {
 
 	private static Chat chat = new Chat("TorchLight");
 	private static TorchLight plugin;
+	private static BukkitTask task;
 
 	@Override
 	public void onEnable() {
@@ -44,7 +47,7 @@ public class TorchLight extends JavaPlugin {
 		plugin = this;
 
 		chat.sendConsoleMessage("Starting timers...");
-		Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+		task = Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
 			@Override
 			public void run() {
 				for(Player player : Bukkit.getOnlinePlayers()) {
@@ -74,7 +77,13 @@ public class TorchLight extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-
+		chat.sendConsoleMessage("Resetting remaining glowstone blocks...");
+		task.cancel();
+		for(Map.Entry<String, BlockState> entry : playerState.entrySet()) {
+			entry.getValue().getLocation().getBlock().setType(entry.getValue().getType());
+			entry.getValue().getLocation().getBlock().setData(entry.getValue().getData().getData());
+		}
+		chat.sendConsoleMessage("All remaining glowstone blocks have been reset.");
 	}
 
 	public static Chat getChat() {
