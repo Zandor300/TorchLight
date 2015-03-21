@@ -74,14 +74,18 @@ public class TorchLight extends JavaPlugin {
 					if (!player.getItemInHand().getType().equals(Material.TORCH)) {
 						if (playerState.get(player.getName()) != null) {
 							BlockState state = playerState.get(player.getName());
-							state.getLocation().getBlock().setType(state.getType());
-							state.getLocation().getBlock().setData(state.getData().getData());
+							if(state.getLocation().getBlock() != null) {
+								state.getLocation().getBlock().setType(state.getType());
+								state.getLocation().getBlock().setData(state.getData().getData());
+							}
 						}
 						playerState.put(player.getName(), null);
 					} else {
 						BlockState state = playerState.get(player.getName());
-						state.getLocation().getBlock().setType(state.getType());
-						state.getLocation().getBlock().setData(state.getData().getData());
+						if(state != null && state.getLocation().getBlock() != null) {
+							state.getLocation().getBlock().setType(state.getType());
+							state.getLocation().getBlock().setData(state.getData().getData());
+						}
 						Location location = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ());
 						playerState.put(player.getName(), location.getBlock().getState());
 						location.getBlock().setType(Material.GLOWSTONE);
