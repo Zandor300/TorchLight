@@ -74,7 +74,7 @@ public class TorchLight extends JavaPlugin {
 					if (!player.getItemInHand().getType().equals(Material.TORCH)) {
 						if (playerState.get(player.getName()) != null) {
 							BlockState state = playerState.get(player.getName());
-							if(state.getLocation().getBlock() != null) {
+							if (state.getLocation().getBlock() != null) {
 								state.getLocation().getBlock().setType(state.getType());
 								state.getLocation().getBlock().setData(state.getData().getData());
 							}
@@ -82,12 +82,16 @@ public class TorchLight extends JavaPlugin {
 						playerState.put(player.getName(), null);
 					} else {
 						BlockState state = playerState.get(player.getName());
-						if(state != null && state.getLocation().getBlock() != null) {
+						if (state != null && state.getLocation().getBlock() != null) {
 							state.getLocation().getBlock().setType(state.getType());
 							state.getLocation().getBlock().setData(state.getData().getData());
 						}
 						Location location = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ());
-						while(location.getBlock().getType().equals(Material.AIR))
+						while (location.getBlock().getType().equals(Material.AIR) ||
+								location.getBlock().getType().equals(Material.WATER) ||
+								location.getBlock().getType().equals(Material.STATIONARY_WATER) ||
+								location.getBlock().getType().equals(Material.LAVA) ||
+								location.getBlock().getType().equals(Material.STATIONARY_LAVA))
 							location.add(0, -1, 0);
 						playerState.put(player.getName(), location.getBlock().getState());
 						location.getBlock().setType(Material.GLOWSTONE);
