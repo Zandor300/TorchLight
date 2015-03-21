@@ -24,7 +24,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.mcstats.Metrics;
@@ -45,6 +44,14 @@ public class TorchLight extends JavaPlugin {
 	private static TorchLight plugin;
 	private static BukkitTask task;
 
+	public static Chat getChat() {
+		return chat;
+	}
+
+	public static TorchLight getPlugin() {
+		return plugin;
+	}
+
 	@Override
 	public void onEnable() {
 		chat.sendConsoleMessage("Setting things up...");
@@ -63,8 +70,8 @@ public class TorchLight extends JavaPlugin {
 		task = Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
 			@Override
 			public void run() {
-				for(Player player : Bukkit.getOnlinePlayers()) {
-					if(!player.getItemInHand().getType().equals(Material.TORCH)) {
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					if (!player.getItemInHand().getType().equals(Material.TORCH)) {
 						if (playerState.get(player.getName()) != null) {
 							BlockState state = playerState.get(player.getName());
 							state.getLocation().getBlock().setType(state.getType());
@@ -95,18 +102,10 @@ public class TorchLight extends JavaPlugin {
 	public void onDisable() {
 		chat.sendConsoleMessage("Resetting remaining glowstone blocks...");
 		task.cancel();
-		for(Map.Entry<String, BlockState> entry : playerState.entrySet()) {
+		for (Map.Entry<String, BlockState> entry : playerState.entrySet()) {
 			entry.getValue().getLocation().getBlock().setType(entry.getValue().getType());
 			entry.getValue().getLocation().getBlock().setData(entry.getValue().getData().getData());
 		}
 		chat.sendConsoleMessage("All remaining glowstone blocks have been reset.");
-	}
-
-	public static Chat getChat() {
-		return chat;
-	}
-
-	public static TorchLight getPlugin() {
-		return plugin;
 	}
 }
