@@ -27,7 +27,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.mcstats.Metrics;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +50,14 @@ public class TorchLight extends JavaPlugin {
 		chat.sendConsoleMessage("Setting things up...");
 
 		plugin = this;
+
+		chat.sendConsoleMessage("Starting metrics...");
+		try {
+			new Metrics(this).start();
+			chat.sendConsoleMessage("Submitted stats to MCStats.org.");
+		} catch (IOException e) {
+			chat.sendConsoleMessage("Couldn't submit stats to MCStats.org...");
+		}
 
 		chat.sendConsoleMessage("Starting timers...");
 		task = Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
