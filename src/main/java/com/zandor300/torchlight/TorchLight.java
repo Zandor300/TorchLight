@@ -15,8 +15,11 @@
  */
 package com.zandor300.torchlight;
 
+import com.zandor300.torchlight.commands.TorchLightCommand;
+import com.zandor300.zsutilities.commandsystem.CommandManager;
 import com.zandor300.zsutilities.utilities.Chat;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -36,7 +39,7 @@ public class TorchLight extends JavaPlugin {
 
 	private static HashMap<String, BlockState> playerState = new HashMap<String, BlockState>();
 
-	private static Chat chat = new Chat("TorchLight");
+	private static Chat chat = new Chat("TorchLight", ChatColor.GOLD);
 	private static TorchLight plugin;
 	private static BukkitTask task;
 
@@ -70,6 +73,9 @@ public class TorchLight extends JavaPlugin {
 			}
 		}, 20l, 1l);
 		chat.sendConsoleMessage("Timers started.");
+
+		CommandManager cm = new CommandManager();
+		cm.registerCommand(new TorchLightCommand(), this);
 
 		chat.sendConsoleMessage("Everything is setup!");
 		chat.sendConsoleMessage("Enabled.");
