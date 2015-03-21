@@ -87,6 +87,8 @@ public class TorchLight extends JavaPlugin {
 							state.getLocation().getBlock().setData(state.getData().getData());
 						}
 						Location location = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ());
+						while(location.getBlock().getType().equals(Material.AIR))
+							location.add(0, -1, 0);
 						playerState.put(player.getName(), location.getBlock().getState());
 						location.getBlock().setType(Material.GLOWSTONE);
 					}
