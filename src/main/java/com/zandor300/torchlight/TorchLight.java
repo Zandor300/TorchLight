@@ -16,6 +16,7 @@
 package com.zandor300.torchlight;
 
 import com.zandor300.torchlight.commands.TorchLightCommand;
+import com.zandor300.zsutilities.ZSUtilities;
 import com.zandor300.zsutilities.commandsystem.CommandManager;
 import com.zandor300.zsutilities.utilities.Chat;
 import org.bukkit.Bukkit;
@@ -57,6 +58,8 @@ public class TorchLight extends JavaPlugin {
 		chat.sendConsoleMessage("Setting things up...");
 
 		plugin = this;
+
+		ZSUtilities.addDependency(this);
 
 		chat.sendConsoleMessage("Starting metrics...");
 		try {
